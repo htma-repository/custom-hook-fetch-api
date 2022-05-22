@@ -7,13 +7,20 @@ import useFetch from "../hooks/use-fetch";
 const NewTask = (props) => {
   const { isLoading, error, requestHttp } = useFetch();
 
-  const enterTaskHandler = (taskText) => {
-    const taskConf = (newData) => {
-      const generatedId = newData.name; // firebase-specific => "name" contains generated id
-      const createdTask = { id: generatedId, text: taskText };
+  const taskConf = (taskText, newData) => {
+    const generatedId = newData.name; // firebase-specific => "name" contains generated id
+    const createdTask = { id: generatedId, text: taskText };
 
-      props.onAddTask(createdTask);
-    };
+    props.onAddTask(createdTask);
+  };
+
+  const enterTaskHandler = (taskText) => {
+    // const taskConf = (newData) => {
+    //   const generatedId = newData.name; // firebase-specific => "name" contains generated id
+    //   const createdTask = { id: generatedId, text: taskText };
+
+    //   props.onAddTask(createdTask);
+    // };
 
     requestHttp(
       {
@@ -24,7 +31,7 @@ const NewTask = (props) => {
         },
         body: { text: taskText },
       },
-      taskConf
+      taskConf.bind(this, taskText)
     );
   };
 

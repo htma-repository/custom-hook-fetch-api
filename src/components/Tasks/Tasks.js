@@ -1,15 +1,24 @@
-import Section from '../UI/Section';
-import TaskItem from './TaskItem';
-import classes from './Tasks.module.css';
+import { useState } from "react";
+
+import Section from "../UI/Section";
+import TaskItem from "./TaskItem";
+import classes from "./Tasks.module.css";
 
 const Tasks = (props) => {
+  const deleteTask = (id) => {
+    props.taskDelete(id);
+  };
+
   let taskList = <h2>No tasks found. Start adding some!</h2>;
 
   if (props.items.length > 0) {
     taskList = (
       <ul>
         {props.items.map((task) => (
-          <TaskItem key={task.id}>{task.text}</TaskItem>
+          <TaskItem key={task.id}>
+            <p>{task.text}</p>
+            <button onClick={deleteTask.bind(this, task.id)}>Delete</button>
+          </TaskItem>
         ))}
       </ul>
     );
@@ -22,7 +31,7 @@ const Tasks = (props) => {
   }
 
   if (props.loading) {
-    content = 'Loading tasks...';
+    content = "Loading tasks...";
   }
 
   return (
